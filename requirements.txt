@@ -1,0 +1,12 @@
+librosa==0.10.2
+pymongo==4.8.0
+pyspark==3.5.1
+annoy==1.17.3
+kafka-python==2.0.2
+flask==3.0.3
+scikit-learn==1.5.1
+pandas==2.2.2
+numpy==1.26.4
+matplotlib==3.9.1
+seaborn==0.13.2
+hdfs==2.7.3
