@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Music Feature Analysis &amp; Recommendation</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 16px; color: #222; }
+  h1 { font-size: 1.6rem; }
+  .card { border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-top: 20px; }
+  .warn { background: #fff3cd; border-color: #ffe69c; }
+  .error { background: #f8d7da; border-color: #f1aeb5; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  td, th { text-align: left; padding: 6px 8px; border-bottom: 1px solid #eee; }
+  button { background: #2d6cdf; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; }
+  button:disabled { background: #aaa; cursor: not-allowed; }
+  .genre-badge { display: inline-block; background: #2d6cdf; color: white; padding: 4px 10px; border-radius: 12px; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+  <h1>Music Feature Analysis &amp; Real-Time Recommendation</h1>
+  <p>Upload an audio clip to extract its audio features, predict its genre, and get 5 similar tracks from the FMA medium dataset.</p>
+
+  {% if not ready %}
+  <div class="card warn">
+    Models are not loaded yet (scaler / classifier / Annoy index missing under <code>models/</code>).
+    Run the Task 1/5/6 training scripts first, then reload this page.
+  </div>
+  {% endif %}
+
+  {% if error %}
+  <div class="card error">{{ error }}</div>
+  {% endif %}
+
+  <div class="card">
+    <form action="/analyze" method="post" enctype="multipart/form-data">
+      <input type="file" name="audio" accept=".mp3,.wav,.ogg,.flac,.m4a" required>
+      <button type="submit" {% if not ready %}disabled{% endif %}>Analyze</button>
+    </form>
+  </div>
+
+  {% if result %}
+  <div class="card">
+    <h2>{{ result.filename }}</h2>
+    <p>Predicted genre: <span class="genre-badge">{{ result.predicted_genre }}</span></p>
+
+    <h3>Feature insights</h3>
+    <table>
+      <tr><th>Tempo</th><td>{{ result.insights.tempo_bpm }} BPM</td></tr>
+      <tr><th>Spectral centroid</th><td>{{ result.insights.spectral_centroid_hz }} Hz</td></tr>
+      <tr><th>Spectral rolloff</th><td>{{ result.insights.spectral_rolloff_hz }} Hz</td></tr>
+      <tr><th>Zero-crossing rate</th><td>{{ result.insights.zero_crossing_rate }}</td></tr>
+      <tr><th>MFCC[0] mean</th><td>{{ result.insights.mfcc_0_mean }}</td></tr>
+    </table>
+
+    {% if result.genre_probabilities %}
+    <h3>Top genre probabilities</h3>
+    <table>
+      {% for genre, p in result.genre_probabilities %}
+      <tr><td>{{ genre }}</td><td>{{ "%.1f"|format(p * 100) }}%</td></tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+
+    <h3>Recommended tracks</h3>
+    <table>
+      <tr><th>Track ID</th><th>Genre</th><th>Distance</th></tr>
+      {% for r in result.recommendations %}
+      <tr><td>{{ r.track_id }}</td><td>{{ r.genre_top }}</td><td>{{ "%.4f"|format(r.distance) }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endif %}
+</body>
+</html>
