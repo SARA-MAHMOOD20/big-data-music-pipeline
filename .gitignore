@@ -13,6 +13,7 @@ node_modules/
 models/
 *.joblib
 *.pkl
+*.pickle
 *.ann
 mongo_data/
 hadoop_namenode/
