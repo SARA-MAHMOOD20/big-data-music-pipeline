@@ -47,6 +47,12 @@ def main():
     t_start = time.time()
     spark = build_spark(args.uri, args.db, args.collection, args.master)
     df = spark.read.format("mongodb").load()
+    # Flatten the nested `features` struct into top-level columns: some Spark
+    # DataFrame stat functions (approxQuantile) fail to resolve dotted nested
+    # paths even though groupBy/agg and stat.corr accept them fine.
+    df = df.withColumn("tempo", F.col("features.tempo")).withColumn(
+        "spectral_centroid_mean", F.col("features.spectral_centroid_mean")
+    )
     df.cache()
     n = df.count()
     t_read = time.time()
@@ -58,23 +64,23 @@ def main():
         df.groupBy("genre_top")
         .agg(
             F.count("*").alias("count"),
-            F.avg("features.tempo").alias("avg_tempo"),
-            F.avg("features.spectral_centroid_mean").alias("avg_spectral_centroid"),
-            F.stddev("features.tempo").alias("std_tempo"),
+            F.avg("tempo").alias("avg_tempo"),
+            F.avg("spectral_centroid_mean").alias("avg_spectral_centroid"),
+            F.stddev("tempo").alias("std_tempo"),
         )
         .orderBy(F.desc("count"))
     )
     genre_stats.show(20, truncate=False)
 
     # Feature correlation (tempo vs spectral centroid, as an example pair)
-    corr = df.stat.corr("features.tempo", "features.spectral_centroid_mean")
+    corr = df.stat.corr("tempo", "spectral_centroid_mean")
     print(f"Correlation(tempo, spectral_centroid_mean) = {corr:.4f}")
 
     # Outlier detection via IQR on tempo
-    q1, q3 = df.approxQuantile("features.tempo", [0.25, 0.75], 0.01)
+    q1, q3 = df.approxQuantile("tempo", [0.25, 0.75], 0.01)
     iqr = q3 - q1
     lower, upper = q1 - 1.5 * iqr, q3 + 1.5 * iqr
-    outliers = df.filter((F.col("features.tempo") < lower) | (F.col("features.tempo") > upper))
+    outliers = df.filter((F.col("tempo") < lower) | (F.col("tempo") > upper))
     n_outliers = outliers.count()
     print(f"Tempo IQR=[{q1:.1f}, {q3:.1f}], outlier bounds=[{lower:.1f}, {upper:.1f}], "
           f"outliers found: {n_outliers}")
