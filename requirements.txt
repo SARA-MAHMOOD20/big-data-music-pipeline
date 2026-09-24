@@ -10,3 +10,4 @@ numpy==1.26.4
 matplotlib==3.9.1
 seaborn==0.13.2
 hdfs==2.7.3
+joblib==1.6.0

@@ -10,3 +10,10 @@ fma_medium/
 .env
 *.log
 node_modules/
+models/
+*.joblib
+*.pkl
+*.ann
+mongo_data/
+hadoop_namenode/
+hadoop_datanode/
