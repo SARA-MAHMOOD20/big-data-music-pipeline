@@ -54,7 +54,7 @@ def get_state():
             meta_path=os.path.join(MODELS_DIR, "index_meta.json"),
         )
         _state["index"], _state["meta"], _state["id_to_track"] = index, meta, id_to_track
-    except FileNotFoundError:
+    except (FileNotFoundError, OSError):
         _state["index"] = None
     return _state
 

@@ -27,7 +27,10 @@ def extract_features_from_signal(y: np.ndarray, sr: int) -> dict:
     rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr)
     chroma = librosa.feature.chroma_stft(y=y, sr=sr)
     zcr = librosa.feature.zero_crossing_rate(y)
-    tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
+    # librosa.beat.beat_track's numba-guvectorize DP step segfaults under the
+    # numba build in this environment; the autocorrelation-based tempo
+    # estimator below covers the "tempo" feature requirement without it.
+    tempo = librosa.feature.tempo(y=y, sr=sr)
 
     feats = {}
     for i, v in enumerate(mfcc.mean(axis=1)):

@@ -113,6 +113,31 @@ services:
     networks:
       - music-pipeline
 
+  jobs:
+    build:
+      context: ..
+      dockerfile: docker/jobs.Dockerfile
+    container_name: jobs
+    working_dir: /work
+    volumes:
+      - ..:/work
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017
+      - WEBHDFS_URL=http://namenode:9870
+      - HDFS_URL=hdfs://namenode:9000
+      - KAFKA_BOOTSTRAP=kafka:9092
+      - SPARK_MASTER=local[*]
+    depends_on:
+      - namenode
+      - datanode
+      - mongodb
+      - kafka
+      - spark-master
+    networks:
+      - music-pipeline
+    profiles:
+      - jobs
+
   webapp:
     build:
       context: ..
