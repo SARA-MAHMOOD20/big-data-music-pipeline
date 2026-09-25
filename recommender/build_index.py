@@ -6,7 +6,7 @@ feature vectors and saves it alongside a track_id/genre lookup table so
 recommend.py and the web app can query it.
 
 Usage:
-    python build_index.py [--n-trees 50] [--metric angular]
+    python build_index.py [--n-trees 100] [--metric angular]
 """
 import argparse
 import json
@@ -25,7 +25,7 @@ def main():
         "--in", dest="inp",
         default=os.path.join(HERE, "..", "feature_extraction", "features_normalized.csv"),
     )
-    ap.add_argument("--n-trees", type=int, default=50)
+    ap.add_argument("--n-trees", type=int, default=100)
     ap.add_argument("--metric", default="angular", choices=["angular", "euclidean", "manhattan"])
     ap.add_argument("--out", default=os.path.join(HERE, "..", "models", "annoy_index.ann"))
     args = ap.parse_args()

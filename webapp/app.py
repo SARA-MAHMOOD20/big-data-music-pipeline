@@ -46,6 +46,7 @@ def get_state():
         clf_bundle = joblib.load(os.path.join(MODELS_DIR, "genre_classifier.pkl"))
         _state["classifier"] = clf_bundle["model"]
         _state["classifier_feature_cols"] = clf_bundle["feature_cols"]
+        _state["label_encoder"] = clf_bundle["label_encoder"]
     except FileNotFoundError:
         _state["classifier"] = None
     try:
@@ -89,11 +90,13 @@ def analyze():
     raw_vector = np.array([[raw_feats[c] for c in state["scaler_feature_cols"]]])
     norm_vector = state["scaler"].transform(raw_vector)[0]
 
-    genre_pred = state["classifier"].predict(norm_vector.reshape(1, -1))[0]
+    le = state["label_encoder"]
+    genre_pred_encoded = state["classifier"].predict(norm_vector.reshape(1, -1))[0]
+    genre_pred = le.inverse_transform([genre_pred_encoded])[0]
     proba = None
     if hasattr(state["classifier"], "predict_proba"):
         probs = state["classifier"].predict_proba(norm_vector.reshape(1, -1))[0]
-        labels = state["classifier"].classes_
+        labels = le.inverse_transform(state["classifier"].classes_)
         proba = sorted(zip(labels, probs), key=lambda x: -x[1])[:5]
 
     recs = recommend_by_vector(
