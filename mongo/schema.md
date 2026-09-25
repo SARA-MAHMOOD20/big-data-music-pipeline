@@ -16,7 +16,10 @@ per track is small/fixed size).
     "spectral_rolloff_mean": 4210.9, "spectral_rolloff_std": 890.2,
     "chroma_mean": [12 floats], "chroma_std": [12 floats],
     "zcr_mean": 0.081, "zcr_std": 0.021,
-    "tempo": 128.0
+    "tempo": 128.0,
+    "spectral_bandwidth_mean": 1805.2, "spectral_bandwidth_std": 402.6,
+    "contrast_mean": [7 floats], "contrast_std": [7 floats],
+    "rms_mean": 0.14, "rms_std": 0.05
   },
   "features_normalized": { /* same shape, z-scored */ }
 }

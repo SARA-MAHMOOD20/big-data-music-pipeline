@@ -20,6 +20,7 @@ from pymongo.operations import ReplaceOne
 HERE = os.path.dirname(__file__)
 MFCC_N = 13
 CHROMA_N = 12
+CONTRAST_N = 7
 
 
 def row_to_features(row, prefix=""):
@@ -35,6 +36,12 @@ def row_to_features(row, prefix=""):
         "zcr_mean": row[f"{prefix}zcr_mean"],
         "zcr_std": row[f"{prefix}zcr_std"],
         "tempo": row[f"{prefix}tempo"],
+        "spectral_bandwidth_mean": row[f"{prefix}spectral_bandwidth_mean"],
+        "spectral_bandwidth_std": row[f"{prefix}spectral_bandwidth_std"],
+        "contrast_mean": [row[f"{prefix}contrast_{i}_mean"] for i in range(CONTRAST_N)],
+        "contrast_std": [row[f"{prefix}contrast_{i}_std"] for i in range(CONTRAST_N)],
+        "rms_mean": row[f"{prefix}rms_mean"],
+        "rms_std": row[f"{prefix}rms_std"],
     }
 
 
