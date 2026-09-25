@@ -24,16 +24,33 @@ def main():
 
     faster = "MongoDB" if mongo["read_seconds"] < hdfs["read_seconds"] else "HDFS"
     print(f"\n{faster} had the faster read in this run.")
-    print(
-        "Expected explanation: MongoDB serves pre-parsed BSON documents over its wire "
-        "protocol with server-side indexing, so small/medium result sets return with low "
-        "per-document overhead. HDFS read time here includes CSV parsing (schema "
-        "inference + text decoding) on every read, and its throughput advantage really "
-        "shows on large sequential scans / big files split across blocks and datanodes - "
-        "not on small, single-block CSVs read from a single-node pseudo-cluster. At larger "
-        "scale (multi-block files, multiple datanodes), HDFS's parallel block reads would "
-        "be expected to close or reverse this gap."
-    )
+
+    if faster == "HDFS":
+        print(
+            "Explanation: the HDFS path is a single flat CSV, read in one pass by "
+            "Spark's native CSV reader with schema inference. The MongoDB path goes "
+            "through the Mongo Spark Connector's wire protocol - it samples documents "
+            "to infer a schema, opens a cursor, and deserializes each BSON document "
+            "(including unpacking the nested `features` subdocument) on the way in. "
+            "That per-document deserialization and the extra connector round-trip "
+            "outweigh CSV parsing here, at this row count on a single-node cluster. "
+            "MongoDB's advantage shows up instead in Task 3's indexed point/range "
+            "queries (queries.py), where it only needs to touch a handful of documents "
+            "rather than scanning the whole dataset - HDFS has no equivalent without a "
+            "separate indexing layer."
+        )
+    else:
+        print(
+            "Explanation: MongoDB serves pre-parsed BSON documents over its wire "
+            "protocol with server-side indexing, so small/medium result sets return "
+            "with low per-document overhead. HDFS read time here includes CSV parsing "
+            "(schema inference + text decoding) on every read, and its throughput "
+            "advantage really shows on large sequential scans / big files split across "
+            "blocks and datanodes - not on small, single-block CSVs read from a "
+            "single-node pseudo-cluster. At larger scale (multi-block files, multiple "
+            "datanodes), HDFS's parallel block reads would be expected to close or "
+            "reverse this gap."
+        )
 
 
 if __name__ == "__main__":
