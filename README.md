@@ -134,6 +134,8 @@ off (see `kafka/consumer.py` docstring for the offset-commit strategy).
 ## Report & walkthrough
 
 - Technical report: [`report/report.md`](report/report.md)
+- Plain-language explainer PDF (what each technology is, why it was chosen, and
+  how it's used here, task by task): [`report/project_explainer.pdf`](report/project_explainer.pdf)
 - Screen-recorded walkthrough: _add your recording link here before submission_
 
 ## Known limitations
