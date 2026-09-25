@@ -1,0 +1,8 @@
+{
+  "source": "hdfs",
+  "rows": 24985,
+  "read_seconds": 8.761,
+  "total_processing_seconds": 10.46,
+  "tempo_spectral_centroid_correlation": 0.0111,
+  "tempo_outliers": 151
+}

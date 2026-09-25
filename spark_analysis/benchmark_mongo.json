@@ -1,0 +1,8 @@
+{
+  "source": "mongodb",
+  "documents": 24985,
+  "read_seconds": 13.458,
+  "total_processing_seconds": 14.614,
+  "tempo_spectral_centroid_correlation": 0.0111,
+  "tempo_outliers": 151
+}

@@ -1,0 +1,40 @@
+{
+  "sample_size": 800,
+  "results": [
+    {
+      "n_trees": 10,
+      "metric": "angular",
+      "precision_at_5": 0.4555,
+      "build_seconds": 0.071,
+      "eval_seconds": 0.009
+    },
+    {
+      "n_trees": 50,
+      "metric": "angular",
+      "precision_at_5": 0.4785,
+      "build_seconds": 0.209,
+      "eval_seconds": 0.046
+    },
+    {
+      "n_trees": 50,
+      "metric": "euclidean",
+      "precision_at_5": 0.484,
+      "build_seconds": 0.173,
+      "eval_seconds": 0.041
+    },
+    {
+      "n_trees": 100,
+      "metric": "angular",
+      "precision_at_5": 0.488,
+      "build_seconds": 0.437,
+      "eval_seconds": 0.093
+    }
+  ],
+  "best": {
+    "n_trees": 100,
+    "metric": "angular",
+    "precision_at_5": 0.488,
+    "build_seconds": 0.437,
+    "eval_seconds": 0.093
+  }
+}

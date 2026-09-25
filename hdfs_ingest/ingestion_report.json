@@ -1,0 +1,97 @@
+{
+  "audio_files_ok": 25000,
+  "audio_files_failed": 0,
+  "audio_ingest_seconds": 434.3,
+  "metadata_files_uploaded": [
+    "tracks.csv",
+    "genres.csv",
+    "features.csv",
+    "echonest.csv",
+    "features_raw.csv",
+    "features_normalized.csv"
+  ],
+  "metadata_ingest_seconds": 4.84,
+  "total_seconds": 439.14,
+  "genre_partitions": {
+    "Blues": {
+      "path": "/music_pipeline/audio/Blues",
+      "file_count": 74,
+      "space_consumed_bytes": 190837806
+    },
+    "Classical": {
+      "path": "/music_pipeline/audio/Classical",
+      "file_count": 619,
+      "space_consumed_bytes": 1599878268
+    },
+    "Country": {
+      "path": "/music_pipeline/audio/Country",
+      "file_count": 178,
+      "space_consumed_bytes": 517155618
+    },
+    "Easy Listening": {
+      "path": "/music_pipeline/audio/Easy_Listening",
+      "file_count": 21,
+      "space_consumed_bytes": 62447598
+    },
+    "Electronic": {
+      "path": "/music_pipeline/audio/Electronic",
+      "file_count": 6314,
+      "space_consumed_bytes": 19888728381
+    },
+    "Experimental": {
+      "path": "/music_pipeline/audio/Experimental",
+      "file_count": 2251,
+      "space_consumed_bytes": 6699380937
+    },
+    "Folk": {
+      "path": "/music_pipeline/audio/Folk",
+      "file_count": 1519,
+      "space_consumed_bytes": 4255449987
+    },
+    "Hip-Hop": {
+      "path": "/music_pipeline/audio/Hip-Hop",
+      "file_count": 2201,
+      "space_consumed_bytes": 6965629269
+    },
+    "Instrumental": {
+      "path": "/music_pipeline/audio/Instrumental",
+      "file_count": 1350,
+      "space_consumed_bytes": 4221557193
+    },
+    "International": {
+      "path": "/music_pipeline/audio/International",
+      "file_count": 1018,
+      "space_consumed_bytes": 2905058667
+    },
+    "Jazz": {
+      "path": "/music_pipeline/audio/Jazz",
+      "file_count": 384,
+      "space_consumed_bytes": 1050909315
+    },
+    "Old-Time / Historic": {
+      "path": "/music_pipeline/audio/Old-Time_Historic",
+      "file_count": 510,
+      "space_consumed_bytes": 1374944901
+    },
+    "Pop": {
+      "path": "/music_pipeline/audio/Pop",
+      "file_count": 1186,
+      "space_consumed_bytes": 3448937259
+    },
+    "Rock": {
+      "path": "/music_pipeline/audio/Rock",
+      "file_count": 7103,
+      "space_consumed_bytes": 20507652096
+    },
+    "Soul-RnB": {
+      "path": "/music_pipeline/audio/Soul-RnB",
+      "file_count": 154,
+      "space_consumed_bytes": 444565149
+    },
+    "Spoken": {
+      "path": "/music_pipeline/audio/Spoken",
+      "file_count": 118,
+      "space_consumed_bytes": 308496750
+    }
+  }
+}
